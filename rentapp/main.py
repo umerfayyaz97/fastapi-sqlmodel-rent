@@ -74,8 +74,17 @@ def get_data():
         # heroes = results.all()
         # print(heroes)
 
-        heroes = session.exec(select(Hero)).all()
-        print(heroes)
+        # statement = select(Hero).where(Hero.id == 3 ).where(Hero.secret_name == "SHP2")
+        # results = session.exec(statement)
+        # for hero in results:
+        #     print(hero)
+        statement = select(Hero).where(Hero.id == 3 ).where(Hero.secret_name == "SHP2")
+        results = session.exec(statement)
+        for hero in results:
+            print(hero)
+
+        # heroes = session.exec(select(Hero)).all()
+        # print(heroes)
 
 def main():
     create_db_and_tables()
