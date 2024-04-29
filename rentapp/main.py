@@ -18,7 +18,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 #class HERO with row attributes
 class Hero(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    name: str
+    name: str = Field(index=True)
     secret_name: str
     age: int | None = None
 
@@ -34,7 +34,7 @@ class Rent(SQLModel, table=True):
 # connection_string = str(DATABASE_URL).replace("postgresql", "postgresql+psycopg")
 # print(connection_string)
 
-engine = create_engine(DATABASE_URL, echo=True) # type: ignore
+engine = create_engine(DATABASE_URL) # type: ignore
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
@@ -72,13 +72,19 @@ def get_data():
 
         # HERO DB
 
+        #(select) returns iterable object
         # statement = select(Hero)
+
         # results = session.exec(statement)
+
+        #(.all) returns List instead of object
         # heroes = results.all()
         # print(heroes)
 
-        # statement = select(Hero).where(Hero.id == 3 ).where(Hero.secret_name == "SHP2")
+        # statement = select(Hero).where(Hero.id == 1)
         # results = session.exec(statement)
+        heroes = session.get(Hero, 2)
+        print('Hero: ',heroes)
         # for hero in results:
         #     print(hero)
 
@@ -89,10 +95,10 @@ def get_data():
 
         # RENT DB
 
-        statement = select(Rent).where(Rent.description == "Muzaffar Market", col(Rent.rent) >= 10000)
-        results = session.exec(statement)
-        for rent in results:
-            print(rent)
+        # statement = select(Rent).where(Rent.description == "Muzaffar Market", col(Rent.rent) >= 10000)
+        # results = session.exec(statement)
+        # for rent in results:
+        #     print(rent)
 
         # rent = session.exec(select(Rent)).all()
         # print(rent)
