@@ -1,4 +1,4 @@
-from sqlmodel import Field, Session,  SQLModel, create_engine
+from sqlmodel import Field, Session,  SQLModel, create_engine, col, or_
 from sqlmodel import select
 from contextlib import asynccontextmanager
 from typing import Union, Optional, Annotated
@@ -69,6 +69,9 @@ def create_db_and_tables():
 #getting data from tables
 def get_data():
     with Session(engine) as session:
+
+        # HERO DB
+
         # statement = select(Hero)
         # results = session.exec(statement)
         # heroes = results.all()
@@ -78,13 +81,21 @@ def get_data():
         # results = session.exec(statement)
         # for hero in results:
         #     print(hero)
-        statement = select(Hero).where(Hero.id == 3 ).where(Hero.secret_name == "SHP2")
-        results = session.exec(statement)
-        for hero in results:
-            print(hero)
 
         # heroes = session.exec(select(Hero)).all()
         # print(heroes)
+
+        # ------------------------------------------------  
+
+        # RENT DB
+
+        statement = select(Rent).where(Rent.description == "Muzaffar Market", col(Rent.rent) >= 10000)
+        results = session.exec(statement)
+        for rent in results:
+            print(rent)
+
+        # rent = session.exec(select(Rent)).all()
+        # print(rent)
 
 def main():
     create_db_and_tables()
