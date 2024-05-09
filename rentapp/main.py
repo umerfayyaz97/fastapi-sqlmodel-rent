@@ -73,9 +73,9 @@ def get_data():
         # HERO DB
 
         #(select) returns iterable object
-        # statement = select(Hero)
+        statement = select(Hero)
 
-        # results = session.exec(statement)
+        results = session.exec(statement)
 
         #(.all) returns List instead of object
         # heroes = results.all()
@@ -83,8 +83,9 @@ def get_data():
 
         # statement = select(Hero).where(Hero.id == 1)
         # results = session.exec(statement)
-        heroes = session.get(Hero, 2)
-        print('Hero: ',heroes)
+        # heroes = session.exec(select(Hero).where(Hero.name == 'ShapatarMAN')).first()
+        # heroes = session.get(Hero, 46)
+        # print('Hero: ',heroes)
         # for hero in results:
         #     print(hero)
 
@@ -103,11 +104,33 @@ def get_data():
         # rent = session.exec(select(Rent)).all()
         # print(rent)
 
+def update_heroes():
+    with Session(engine) as session:
+        statement = select(Hero).where(Hero.name == 'ShapatarMAN')
+        heroes = session.exec(statement)
+        for hero in heroes:
+            print(hero)
+            hero.age = 92
+            session.add(hero)
+        
+        session.commit()
+        # for hero in heroes:
+        #     session.refresh(hero)
+            # print(hero)
+
+        update_heroes = session.exec(statement)
+
+        print('updated hero=' )
+        for hero in update_heroes:
+            print(hero)
+
+
 def main():
     create_db_and_tables()
     # create_heroes()
     # add_rent_details()
     get_data()
+    update_heroes()
 
 # Run if called main file, if imported does not call
 if __name__ == "__main__":
