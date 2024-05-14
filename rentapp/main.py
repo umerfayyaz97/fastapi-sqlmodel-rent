@@ -67,15 +67,15 @@ def create_db_and_tables():
 #         session.commit()
 
 #getting data from tables
-def get_data():
-    with Session(engine) as session:
+# def get_data():
+#     with Session(engine) as session:
 
         # HERO DB
 
         #(select) returns iterable object
-        statement = select(Hero)
+        # statement = select(Hero)
 
-        results = session.exec(statement)
+        # results = session.exec(statement)
 
         #(.all) returns List instead of object
         # heroes = results.all()
@@ -104,33 +104,53 @@ def get_data():
         # rent = session.exec(select(Rent)).all()
         # print(rent)
 
-def update_heroes():
+# deleting rows
+def delete_rent():
     with Session(engine) as session:
-        statement = select(Hero).where(Hero.name == 'ShapatarMAN')
-        heroes = session.exec(statement)
-        for hero in heroes:
-            print(hero)
-            hero.age = 92
-            session.add(hero)
-        
+        statement = select(Rent).where(Rent.description == "Muzaffar Market")
+        results = session.exec(statement)
+        for rent in results:
+            print(rent)
+            session.delete(rent)
         session.commit()
+
+        statement = select(Rent).where(Rent.description == "Muzaffar Market")
+        results = session.exec(statement)
+        rent = results.first()
+
+        if rent is None:
+            print("There is no description avsailable as 'Muzaffar Market' ")
+
+        
+
+# def update_heroes():
+#     with Session(engine) as session:
+#         statement = select(Hero).where(Hero.name == 'ShapatarMAN')
+#         heroes = session.exec(statement)
+#         for hero in heroes:
+#             print(hero)
+#             hero.age = 92
+#             session.add(hero)
+        
+#         session.commit()
         # for hero in heroes:
         #     session.refresh(hero)
             # print(hero)
 
-        update_heroes = session.exec(statement)
+        # update_heroes = session.exec(statement)
 
-        print('updated hero=' )
-        for hero in update_heroes:
-            print(hero)
+        # print('updated hero=' )
+        # for hero in update_heroes:
+        #     print(hero)
 
 
 def main():
     create_db_and_tables()
     # create_heroes()
     # add_rent_details()
-    get_data()
-    update_heroes()
+    # get_data()
+    # update_heroes()
+    delete_rent()
 
 # Run if called main file, if imported does not call
 if __name__ == "__main__":
