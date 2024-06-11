@@ -32,9 +32,7 @@ def rent_location():
         lahore = Location(location_name="Lahore", total_rent = 45000)
         muzaffar_shop = Location(location_name="Muzaffar Shop")
 
-        session.add(daska)
-        session.add(lahore)
-        session.add(muzaffar_shop)
+        session.add(daska, lahore, muzaffar_shop)
         session.commit()
 
 
